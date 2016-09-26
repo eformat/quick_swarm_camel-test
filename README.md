@@ -72,6 +72,32 @@ Here are some curl request that we can use to grab JVM data
 curl -X GET http://localhost:8080/jmx
 curl -d "{\"type\":\"read\",\"mbean\":\"java.lang:type=Memory\",\"attribute\":\"HeapMemoryUsage\",\"path\":\"used\"}" http://localhost:8080/jmx/ && echo ""
 ```
+## Running the example on OpenShift Container platform
+
+Run using openshift 3.X container platform: 
+
+    oc login -u mike --server=https://openshift-cluster.<your domain>:8443 --insecure-skip-tls-verify=true
+    docker login -u mike -e <email address> -p `oc whoami -t` docker-registry.apps.eformat.nz
+
+    git clone git@github.com:eformat/quick_swarm_camel-test.git
+    cd quick_swarm_camel-test
+    oc new-project swarm-camel --display-name='Camel Swarm' --description='Camel Swarm'
+    mvn package docker:build docker:push
+    mvn fabric8:json fabric8:apply -Dfabric8.recreate=true -Dfabric8.dockerUser="172.30.148.12:5000/swarm-camel/"
+
+Test
+
+    http://swarm-camel-swarm-camel.apps.eformat.nz/service/say/mike
+
+Api Doc
+
+    http://swarm-camel-swarm-camel.apps.eformat.nz/swagger.json
+
+Jmx - for jolokia
+
+    http://swarm-camel-swarm-camel.apps.eformat.nz/jmx
+
+
 
 ## Running the example on OpenShift
 
