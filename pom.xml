@@ -34,7 +34,8 @@
         <http.port>8080</http.port>
 
         <docker.from>docker.io/java:openjdk-8-jdk</docker.from>
-        <docker.image>fabric8/${project.artifactId}:${project.version}</docker.image>
+        <fabric8.dockerUser>swarm-camel/</fabric8.dockerUser>
+        <docker.image>${fabric8.dockerUser}${project.artifactId}:${project.version}</docker.image>
         <docker.port.container.http>${http.port}</docker.port.container.http>
         <docker.port.container.jolokia>8778</docker.port.container.jolokia>
 
